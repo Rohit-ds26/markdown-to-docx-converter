@@ -90,7 +90,10 @@ python main.py --skip-deps      # skip automatic pip install
 1. Read a `.md` file (file picker or optional path argument)
 2. (Optional) Polish Markdown using Claude (Anthropic API)
 3. Convert Markdown → `.docx` (premium template + Pandoc when available)
-4. Print token usage and estimated cost
+4. **Automatically add Trampolyne AI watermark to every page**
+5. Print token usage and estimated cost
+
+> **Note:** Every generated document includes a "Trampolyne AI" watermark. See [WATERMARK_GUIDE.md](WATERMARK_GUIDE.md) for customization options.
 
 ## Dependencies (auto-install)
 

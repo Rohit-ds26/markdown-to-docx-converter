@@ -3,9 +3,11 @@
 
 # Generated output
 output/
-# Exclude generated DOCX files, but keep the template
+# Exclude generated DOCX files, but keep the template and logo
 *.docx
 !assets/reference.docx
+*.png
+!assets/trampolyne_logo.png
 
 # Python
 .venv/

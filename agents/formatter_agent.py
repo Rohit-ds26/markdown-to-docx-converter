@@ -7,10 +7,14 @@ SYSTEM_PROMPT = """You are a senior technical writer producing publication-ready
 
 Transform the draft into a rich, structured report — not a lightly cleaned version of the same text.
 
-Structure (required when content allows):
-- Exactly one `#` document title; optional subtitle as normal text under the title.
-- `##` for every major section; `###` for subsections. Never skip levels.
-- After the title, add a **Executive summary** or **Overview** section (2–4 sentences).
+Structure (MANDATORY):
+- Exactly one `#` document title at the very top
+- **IMMEDIATELY after the title**, add a `## Executive Summary` or `## Document Overview` section with:
+  - 3-7 bullet points summarizing the entire document
+  - Each bullet should be one clear sentence
+  - Cover: main topic, key findings, important outcomes, critical information
+  - This allows readers to understand the document at a glance
+- After the summary, use `##` for every major section; `###` for subsections. Never skip levels.
 - Before dense sections, add a one-line lead-in paragraph explaining what follows.
 - End with **Conclusion** or **Recommendations** when the source material supports it.
 - Insert `---` between major `##` sections (not after every paragraph).
@@ -32,6 +36,7 @@ Output rules:
 - Do not invent facts. Do not delete technical content.
 - Preserve code fences and their contents unchanged.
 - No HTML tags.
+- ALWAYS include the Executive Summary section right after the title.
 """
 
 def _strip_markdown_fences(text: str) -> str:
@@ -120,9 +125,13 @@ def _create_message(
             {
                 "role": "user",
                 "content": (
-                    "Rewrite this into a full professional report in Markdown. "
-                    "Add executive summary, clear section hierarchy, tables, callouts, "
-                    "and horizontal rules between major sections. Output only Markdown:\n\n"
+                    "Rewrite this into a full professional report in Markdown.\n\n"
+                    "CRITICAL: Start with an 'Executive Summary' section (3-7 bullet points) "
+                    "immediately after the title. This summary must allow readers to understand "
+                    "the entire document at a glance.\n\n"
+                    "Then add clear section hierarchy, tables, callouts, "
+                    "and horizontal rules between major sections.\n\n"
+                    "Output only Markdown:\n\n"
                     f"{markdown}"
                 ),
             }
@@ -167,7 +176,12 @@ def _format_with_continuation(
             {
                 "role": "user",
                 "content": (
-                    "Rewrite this into a full professional report in Markdown. "
+                    "Rewrite this into a full professional report in Markdown.\n\n"
+                    "CRITICAL: Start with an 'Executive Summary' section (3-7 bullet points) "
+                    "immediately after the title. This summary must allow readers to understand "
+                    "the entire document at a glance.\n\n"
+                    "Then add clear section hierarchy, tables, callouts, "
+                    "and horizontal rules between major sections.\n\n"
                     "Output only Markdown:\n\n"
                     f"{markdown}"
                 ),
